@@ -29,8 +29,7 @@ class _ShowcaseState extends State<Showcase> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Text("Categories",
-              style: decoration.collectionInfoDecoration,
-
+              style: decoration.collectionInfoDecoration
             ),
           ),
           Container(
@@ -47,7 +46,6 @@ class _ShowcaseState extends State<Showcase> {
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Text("Trending Collections",
             style: decoration.collectionInfoDecoration,
-
             ),
           ),
           Container(

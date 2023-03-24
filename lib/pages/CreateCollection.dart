@@ -150,29 +150,32 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                     ),
                     ClipRRect(
 
-                      child: Container(
+                      child: GestureDetector(
+                        onTap: () => createCollection(),
+                        child: Container(
 
-                        margin: EdgeInsets.all(10),
-                        width:  MediaQuery.of(context).size.width * 2/3 ,
-                        height: 50,
-                        alignment: Alignment.bottomRight,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          gradient: LinearGradient(
-                              colors: <Color>[
-                                Color(0xFF596EED),
-                                Color(0xFFED5CAB),
-                                //Color(0xFF42A5F5),
-                              ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight
+                          margin: EdgeInsets.all(10),
+                          width:  MediaQuery.of(context).size.width * 2/3 ,
+                          height: 50,
+                          alignment: Alignment.bottomRight,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                            gradient: LinearGradient(
+                                colors: <Color>[
+                                  Color(0xFF596EED),
+                                  Color(0xFFED5CAB),
+                                  //Color(0xFF42A5F5),
+                                ],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight
+                            ),
                           ),
-                        ),
-                        child: Center(
-                            child:  Text(
-                              "Create Collection",
-                              style: decoration.createButtonTextStyle,
-                            )
+                          child: Center(
+                              child:  Text(
+                                "Create Collection",
+                                style: decoration.createButtonTextStyle,
+                              )
+                          ),
                         ),
                       ),
                     ),
@@ -186,5 +189,9 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
     ]
     ),
     );
+  }
+
+  createCollection() {
+    Navigator.pop(context);
   }
 }

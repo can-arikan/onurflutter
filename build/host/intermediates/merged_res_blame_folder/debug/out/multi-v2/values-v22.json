@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/onur/Desktop/SUNFT_mobile/build/host/intermediates/incremental/mergeDebugResources/merged.dir/values-v22/values-v22.xml",
+            "outputFile": "E:\\okul nft\\nft\\build\\host\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v22\\values-v22.xml",
             "map": [
                 {
-                    "source": "/Users/onur/.gradle/caches/transforms-3/a7317bee857acd4ea19f0d56e2a92818/transformed/appcompat-1.0.2/res/values-v22/values-v22.xml",
+                    "source": "C:\\Users\\canar\\.gradle\\caches\\transforms-2\\files-2.1\\274ad4ee0842bebac47c95d973f2d871\\appcompat-1.0.2\\res\\values-v22\\values-v22.xml",
                     "from": {
                         "startLines": "2,3,4,9",
                         "startColumns": "4,4,4,4",

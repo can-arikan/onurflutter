@@ -12,5 +12,4 @@ var collectionInfoDecoration = GoogleFonts.roboto(
   color: collectionInfoColor,
   fontWeight: FontWeight.w700,
   fontSize: 25
-
 );

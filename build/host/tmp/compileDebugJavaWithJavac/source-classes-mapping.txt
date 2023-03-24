@@ -1,0 +1,4 @@
+com/example/properly_made_nft_market/host/MainActivity.java
+ com.example.properly_made_nft_market.host.MainActivity
+com/example/properly_made_nft_market/host/BuildConfig.java
+ com.example.properly_made_nft_market.host.BuildConfig

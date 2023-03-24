@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/onur/Desktop/SUNFT_mobile/build/host/intermediates/incremental/mergeDebugResources/merged.dir/values-be/values-be.xml",
+            "outputFile": "E:\\okul nft\\nft\\build\\host\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-be\\values-be.xml",
             "map": [
                 {
-                    "source": "/Users/onur/.gradle/caches/transforms-3/d363e3b5616f580c766e3e2b3c05f27d/transformed/core-1.8.0/res/values-be/values-be.xml",
+                    "source": "C:\\Users\\canar\\.gradle\\caches\\transforms-2\\files-2.1\\8e2dbe9b4db7828b24af0ef7e7a81223\\core-1.8.0\\res\\values-be\\values-be.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/onur/.gradle/caches/transforms-3/a7317bee857acd4ea19f0d56e2a92818/transformed/appcompat-1.0.2/res/values-be/values-be.xml",
+                    "source": "C:\\Users\\canar\\.gradle\\caches\\transforms-2\\files-2.1\\274ad4ee0842bebac47c95d973f2d871\\appcompat-1.0.2\\res\\values-be\\values-be.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

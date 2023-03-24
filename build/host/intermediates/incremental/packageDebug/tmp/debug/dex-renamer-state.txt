@@ -1,4 +1,4 @@
-#Sun Dec 25 19:57:07 TRT 2022
-base.0=/Users/onur/Desktop/SUNFT_mobile/build/host/intermediates/dex/debug/mergeDexDebug/classes.dex
+#Thu Mar 23 06:30:33 TRT 2023
+base.0=E\:\\okul nft\\nft\\build\\host\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

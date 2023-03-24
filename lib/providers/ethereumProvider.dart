@@ -1,5 +1,5 @@
 
-import 'package:http/http.dart'; //You can also import the browser version
+import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 import "package:properly_made_nft_market/ABIs/nftMarketAbi.dart" as nftMarket;
 import "package:properly_made_nft_market/ABIs/SUcoinAbi.dart" as suCoin;
@@ -7,7 +7,7 @@ import "package:properly_made_nft_market/ABIs/SUcoinAbi.dart" as suCoin;
 import "dart:convert";
 
 var httpClient = Client();
-var apiUrl = "https://api.avax-test.network/ext/bc/C/rpc";
+var apiUrl = "https://polygon-mumbai.infura.io/v3/c189a4f197f94261814cf2f0334463de";
 
 var ethClient = Web3Client(apiUrl, httpClient);
 
