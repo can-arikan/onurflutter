@@ -11,6 +11,23 @@
       <excludeFolder url="file://$MODULE_DIR$/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/.gradle/6.7/vcsMetadata-1" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/generated/ap_generated_sources" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/generated/res" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/incremental/packageDebugResources/merged.dir" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/incremental/packageDebugResources/stripped.dir" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/annotations_zip" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/compiled_local_resources" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/data_binding_layout_info_type_package" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/generated_proguard_file" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/library_and_local_jars_jni" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/library_jni" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/lint_publish_jar" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/merged_consumer_proguard_file" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/merged_jni_libs" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/merged_shaders" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/packaged_res" />
+      <excludeFolder url="file://$MODULE_DIR$/.android/Flutter/build/intermediates/public_res" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 33 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
