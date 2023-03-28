@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import "package:properly_made_nft_market/decoration/MainPageItemsDecoration/MintDecoration.dart"
     as decoration;
@@ -22,9 +23,9 @@ class Mint extends StatefulWidget {
 
 class _MintState extends State<Mint> {
   File? imagePath;
-  TextEditingController NFTNameControl = new TextEditingController();
-  TextEditingController NFTDescriptionControl = new TextEditingController();
-  TextEditingController NFTIdControl = new TextEditingController();
+  TextEditingController NFTNameControl = TextEditingController();
+  TextEditingController NFTDescriptionControl = TextEditingController();
+  TextEditingController NFTIdControl = TextEditingController();
 
   Future pickImage(type) async {
     final image = await ImagePicker().pickImage(source: type);
@@ -42,7 +43,7 @@ class _MintState extends State<Mint> {
       children: [
         SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(top: 10.0),
+            padding: const EdgeInsets.only(top: 10.0),
             child: Center(
               child: Text(
                 "Minting",
@@ -61,8 +62,6 @@ class _MintState extends State<Mint> {
             ),
           ),
         ),
-
-        //@TODO get COLLECTION names from backend VALUE CAN BE COLLLECTION OBJECT.
         Container(
           margin: const EdgeInsets.symmetric(vertical: 10.0),
           width: MediaQuery.of(context).size.width * 3 / 4,
@@ -81,9 +80,11 @@ class _MintState extends State<Mint> {
                       if (change == "NEW") {
                         Navigator.pop(context);
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => CreateCollectionPage()));
+                            MaterialPageRoute(builder: (context) => const CreateCollectionPage()));
                       } else {
-                        print(change.toString());
+                        if (kDebugMode) {
+                          print(change.toString());
+                        }
                       }
                     },
                     items: [

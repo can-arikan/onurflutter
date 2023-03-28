@@ -2,13 +2,11 @@
 <!-- Generated file. Do not edit. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.properly_made_nft_market"
-    android:versionCode="1"
-    android:versionName="1.0.0" >
+    package="com.example.properly_made_nft_market" >
 
     <uses-sdk
         android:minSdkVersion="16"
-        android:targetSdkVersion="31" />
+        android:targetSdkVersion="33" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 

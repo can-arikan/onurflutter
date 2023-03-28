@@ -5,9 +5,6 @@ import '../models/User.dart';
 import '../variables.dart';
 
 var client = http.Client();
-
-
-
   Future<String> _getRefreshToken(String username, String password) async {
     final JWTRequest = http.Request("POST", Uri.parse("$AuthPath/jwt/create/"));
     JWTRequest.headers.addAll(<String, String>{

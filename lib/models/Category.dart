@@ -1,4 +1,5 @@
-import '../backend/requests.dart';
+import 'package:properly_made_nft_market/helpers/marketHelper.dart' as MarketHelper;
+
 import 'NftCollection.dart';
 
 class Category {
@@ -10,7 +11,7 @@ class Category {
   String get pk => name;
 
   Future<List<NFTCollection>> get collections async {
-    final List JSONList = await getRequest("nftcollections", {"collection": pk });
+    final List JSONList = await MarketHelper.query("nftcollections", [ {"collection": pk} ]);
     List<NFTCollection> collections =
     JSONList.map((item) => NFTCollection.fromJson(item)).toList();
     return collections;

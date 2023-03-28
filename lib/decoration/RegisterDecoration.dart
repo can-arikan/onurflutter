@@ -65,7 +65,22 @@ var registerPasswordFieldInputDecoration = InputDecoration(
     color: registerButtonColors,
   ),
 );
-
+var registerEmailFieldInputDecoration = InputDecoration(
+  hintText: "New Email",
+  border: InputBorder.none,
+  suffixIcon: Icon(
+    Icons.email,
+    color: registerButtonColors,
+  ),
+);
+var registerPhotoFieldInputDecoration = InputDecoration(
+  hintText: "New Photo Link",
+  border: InputBorder.none,
+  suffixIcon: Icon(
+    Icons.photo_camera,
+    color: registerButtonColors,
+  ),
+);
 var mainRegisterText = GoogleFonts.roboto(
     color: fieldColors,
     fontSize: 50,

@@ -30,6 +30,11 @@ class UserProvider with ChangeNotifier {
     return _user == null;
   }
 
+  Future<void> setUser(User user) async {
+    _user = user;
+    notifyListeners();
+  }
+
   Future<void> update() async {
     _user = await auth.getUserInfo();
     notifyListeners();

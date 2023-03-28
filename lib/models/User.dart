@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:properly_made_nft_market/helpers/marketHelper.dart' as MarketHelper;
 import 'package:properly_made_nft_market/models/Nft.dart';
 import 'package:properly_made_nft_market/models/NftCollection.dart';
+import 'package:web3dart/credentials.dart';
 import '../backend/requests.dart';
 
 class User {
@@ -36,10 +38,22 @@ class User {
       "User(address: $address, username: $username, profilePicture: $profilePicture, email: $email, NFTLikes: $NFTLikes, collectionLikes: $collectionLikes)";
 
   Future<List<NFT>> get ownedNFTs async {
-  List JSONList = await getRequest("nfts", {"currentOwner": pk});
-  List<NFT> ownedNFTs = JSONList.map((item) => NFT.fromJson(item)).toList();
-  return ownedNFTs;
-}
+    var response = await MarketHelper.query("fetchMyNFTs", []) as List<dynamic>;
+    var NFTs = response.map((e) => NFT(
+        address: e["collection_address"],
+        nID: e["nID"],
+        name: e["collection"],
+        description: e["description"],
+        metaDataType: "png",
+        dataLink: e["tokenId"],
+        collectionName: e["collectionName"],
+        creator: e["creator"],
+        owner: address,
+        marketStatus:
+        e["marketStatus"])
+    );
+    return NFTs.toList();
+  }
   Future<List<NFT>> get likedNFTs async {
     List JSONList = await getRequest("favorites", {"user": pk});
     List<NFT> ownedNFTs = JSONList.map((item) => NFT.fromJson(item)).toList();
@@ -80,9 +94,14 @@ class User {
     return watchListedCollections;
   }
   Future<List<NFTCollection>> get ownedCollections async {
-    List JSONList = await getRequest("nftcollections", {"owner": pk});
+    var JSONList = await MarketHelper.query("getCollections", [EthereumAddress.fromHex(address)])
+    .onError((error, stackTrace) {
+      print(error);
+    });
+    JSONList = JSONList.replaceAll("[", "").replaceAll("]","").split(",");
     List<NFTCollection> ownedCollections =
     JSONList.map((item) => NFTCollection.fromJson(item)).toList();
+    print(JSONList);
     return ownedCollections;
   }
   Future<bool> watchLists(String address) async {

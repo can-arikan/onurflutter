@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import '../../models/User.dart';
 import '../../providers/UserProvider.dart';
 import '../DepositWithdraw.dart';
-import "package:properly_made_nft_market/helpers/marketHelper.dart" as marketHelper;
+import "package:properly_made_nft_market/helpers/UserHelper.dart" as userHelper;
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -146,7 +146,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                               children: [
                                 //@TODO Get data from Blockchain
                                 FutureBuilder<String>(
-                                    future: marketHelper.query("getMarketBalance",[]),
+                                    future: userHelper.query("getMarketBalance",[]),
                                     builder: (context, snapshot) {
                                       if(snapshot.hasData){
                                         return Text(

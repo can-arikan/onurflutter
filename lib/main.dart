@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:properly_made_nft_market/pages/NFTPage.dart';
 import 'package:properly_made_nft_market/pages/Register.dart';
 import 'package:properly_made_nft_market/pages/Login.dart';
 import 'package:properly_made_nft_market/pages/MainApplication.dart';
 import 'package:properly_made_nft_market/providers/UserProvider.dart';
+import 'package:properly_made_nft_market/providers/ethereumProvider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider())
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => EthereumProvider())
       ],
       child: const MyApp()
   ));
@@ -27,11 +28,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       initialRoute: "/Login",
-
       routes: {
-        "/Login": (context) => Login(),
+        "/Login": (context) => const Login(),
         "/Register":(context)  =>  Register(),
-        "/MainPage":(context) => MainPage(),
+        "/MainPage":(context) => const MainPage(),
       },
     );
   }

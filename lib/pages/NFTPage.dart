@@ -4,7 +4,6 @@ import 'package:properly_made_nft_market/decoration/NFTPageDecoration.dart';
 import 'package:properly_made_nft_market/models/Nft.dart';
 import 'package:properly_made_nft_market/Decoration/NFTPageDecoration.dart' as decoration;
 import "package:properly_made_nft_market/components/transactionHistoryChart.dart";
-import 'package:properly_made_nft_market/services/AuthService.dart';
 import 'package:provider/provider.dart';
 
 import '../helpers/UserHelper.dart';
@@ -158,9 +157,6 @@ class _NFTPageState extends State<NFTPage> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-
-
-
                             Container(
                               color: Colors.white,
                               width: MediaQuery.of(context).size.width * 3/4,

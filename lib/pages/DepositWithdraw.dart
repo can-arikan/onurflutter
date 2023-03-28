@@ -175,7 +175,7 @@ class _DepositWithdrawState extends State<DepositWithdraw> {
                   Center(
                       child: Text("Your Withdrawable SUcoin balance on the SUNFT market is : ", style: decoration.dropDownItemTextStyle,textAlign: TextAlign.center,)),
                   FutureBuilder<String>(
-                      future: marketHelper.query("getMarketBalance",[]),
+                      future: userHelper.query("getMarketBalance",[]),
                       builder: (context, snapshot) {
                         if(snapshot.hasData){
                           return Text(snapshot.data!, style: decoration.dropDownItemTextStyle,);
