@@ -105,7 +105,7 @@ class _CollectionPageState extends State<CollectionPage> {
                                   style: decoration.collectionNameTextStyle,
                                 ),
                                 Text(
-                                  "Likes: " + widget.collectionInfo.NFTLikes.toString(),
+                                  "Likes: " + widget.collectionInfo.nftLikes.toString(),
                                   style: decoration.collectionNameTextStyle,
                                 ),
                               ],

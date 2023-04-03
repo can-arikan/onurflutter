@@ -1,17 +1,21 @@
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import "package:properly_made_nft_market/decoration/MainPageItemsDecoration/MintDecoration.dart"
     as decoration;
 import 'package:image_picker/image_picker.dart';
 import 'package:properly_made_nft_market/models/NftCollection.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:web3dart/credentials.dart';
 
+import '../../helpers/IpfsLoader.dart';
+import '../../helpers/marketHelper.dart';
 import '../../models/User.dart';
 import '../../providers/UserProvider.dart';
+import '../../providers/ethereumProvider.dart';
 import '../CreateCollection.dart';
 
 class Mint extends StatefulWidget {
@@ -23,9 +27,9 @@ class Mint extends StatefulWidget {
 
 class _MintState extends State<Mint> {
   File? imagePath;
-  TextEditingController NFTNameControl = TextEditingController();
-  TextEditingController NFTDescriptionControl = TextEditingController();
-  TextEditingController NFTIdControl = TextEditingController();
+  TextEditingController nftNameControl = TextEditingController();
+  TextEditingController nftDescriptionControl = TextEditingController();
+  NFTCollection? chosenNFTCollection;
 
   Future pickImage(type) async {
     final image = await ImagePicker().pickImage(source: type);
@@ -33,6 +37,34 @@ class _MintState extends State<Mint> {
     setState(() {
       imagePath = File(image.path);
     });
+  }
+
+  Future mintNFT() async {
+    var ipfsResult = await uploadIpfs(imagePath!);
+    ipfsResult = const JsonDecoder().convert(ipfsResult.toString());
+    var imageIpfs = "https://cloudflare-ipfs.com/ipfs/${ipfsResult["Hash"]}";
+
+    var json = {
+      "name": nftNameControl.text,
+      "description": nftDescriptionControl.text,
+      "image": imageIpfs
+    };
+
+    final path = (await getApplicationDocumentsDirectory()).path;
+
+    File newNFTjson = File("$path/mint_nft.json");
+
+    newNFTjson = await newNFTjson
+        .writeAsString(const JsonEncoder().convert(json), flush: true);
+
+    ipfsResult = await uploadIpfs(newNFTjson);
+    ipfsResult = const JsonDecoder().convert(ipfsResult.toString());
+    var nftIpfs = "https://cloudflare-ipfs.com/ipfs/${ipfsResult["Hash"]}";
+
+    var uri = await context.read<EthereumProvider>().getMetamaskUri();
+    callContract(context, "createToken",
+        [EthereumAddress.fromHex(chosenNFTCollection!.address!), nftIpfs]);
+    await launchUrlString(uri!, mode: LaunchMode.externalApplication);
   }
 
   @override
@@ -79,11 +111,17 @@ class _MintState extends State<Mint> {
                     onChanged: (dynamic change) {
                       if (change == "NEW") {
                         Navigator.pop(context);
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const CreateCollectionPage()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const CreateCollectionPage()));
                       } else {
-                        if (kDebugMode) {
-                          print(change.toString());
+                        if (snapshot.data != null) {
+                          var idx = int.parse(change
+                              .toString()
+                              .substring(11, change.toString().indexOf(" (")));
+                          chosenNFTCollection = snapshot.data![(idx - 1)];
                         }
                       }
                     },
@@ -91,7 +129,8 @@ class _MintState extends State<Mint> {
                       if (snapshot.data != null)
                         for (int i = 0; i < snapshot.data!.length; i++) ...[
                           DropdownMenuItem(
-                              value: snapshot.data![i].name,
+                              value:
+                                  "Collection ${i + 1} (${snapshot.data![i].name})",
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -126,7 +165,7 @@ class _MintState extends State<Mint> {
             child: TextFormField(
               style: decoration.dropdownItemTextDecoration,
               decoration: decoration.collectionContainer("Name of NFT"),
-              controller: NFTNameControl,
+              controller: nftNameControl,
             )),
         Container(
             margin: const EdgeInsets.all(10.0),
@@ -134,7 +173,7 @@ class _MintState extends State<Mint> {
             child: TextFormField(
               style: decoration.dropdownItemTextDecoration,
               decoration: decoration.collectionContainer("Description of NFT"),
-              controller: NFTDescriptionControl,
+              controller: nftDescriptionControl,
             )),
         (imagePath != null)
             ? Center(
@@ -148,7 +187,8 @@ class _MintState extends State<Mint> {
                 alignment: Alignment.center,
                 margin: const EdgeInsets.all(10.0),
                 width: MediaQuery.of(context).size.width * 3 / 4,
-                child: Text("Image Not Uploaded", style: decoration.nothingSelectedDecoration),
+                child: Text("Image Not Uploaded",
+                    style: decoration.nothingSelectedDecoration),
               )),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           GestureDetector(
@@ -180,8 +220,9 @@ class _MintState extends State<Mint> {
         ]),
         ClipRRect(
           child: GestureDetector(
-            onTap: () => launchUrl(Uri.parse(
-                "https://metamask.app.link/dapp/10.0.2.2:3000/Mobile/Mint_NFT_existing_collection?")),
+            onTap: () async {
+              await mintNFT();
+            },
             child: Container(
               margin: const EdgeInsets.fromLTRB(10, 80, 10, 10),
               width: MediaQuery.of(context).size.width * 1 / 2,

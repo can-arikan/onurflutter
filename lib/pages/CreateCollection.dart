@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:properly_made_nft_market/helpers/marketHelper.dart';
@@ -13,6 +12,7 @@ import '../Decoration/AnimatedGradient.dart';
 import 'package:properly_made_nft_market/decoration/CreateCollectionDecoration.dart'
     as decoration;
 
+import '../helpers/IpfsLoader.dart';
 import '../providers/ethereumProvider.dart';
 
 class CreateCollectionPage extends StatefulWidget {
@@ -24,11 +24,9 @@ class CreateCollectionPage extends StatefulWidget {
 
 class _CreateCollectionPageState extends State<CreateCollectionPage> {
   File? imagePath;
-  TextEditingController CollectionNameControl = new TextEditingController();
-  TextEditingController CollectionDescriptionControl =
-      new TextEditingController();
-  TextEditingController CollectionSymbolControl =
-  new TextEditingController();
+  TextEditingController collectionNameControl = TextEditingController();
+  TextEditingController collectionDescriptionControl = TextEditingController();
+  TextEditingController collectionSymbolControl = TextEditingController();
 
   Future pickImage(type) async {
     final image = await ImagePicker().pickImage(source: type);
@@ -44,7 +42,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
       body: Stack(children: [
         Positioned(child: AnimatedGradient()),
         SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
                 SafeArea(
@@ -58,11 +56,11 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MainPage()),
+                                    builder: (context) => const MainPage()),
                               ),
                             },
                             child: const Padding(
-                              padding: const EdgeInsets.only(left: 16, top: 12),
+                              padding: EdgeInsets.only(left: 16, top: 12),
                               child: Icon(
                                 Icons.arrow_back_rounded,
                                 size: 32,
@@ -87,7 +85,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Text(
                     "Create a collection to Mint NFT's from, this action will cost a lot of gas, so you might want to check your wallet balance.",
                     style: decoration.createCollectionDesc,
@@ -101,7 +99,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                       style: decoration.collectionTextDecoration,
                       decoration:
                           decoration.collectionContainer("Name of Collecton"),
-                      controller: CollectionNameControl,
+                      controller: collectionNameControl,
                     )),
                 Container(
                     margin: const EdgeInsets.all(10.0),
@@ -110,7 +108,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                       style: decoration.collectionTextDecoration,
                       decoration: decoration
                           .collectionContainer("Symbol of Collection"),
-                      controller: CollectionSymbolControl,
+                      controller: collectionSymbolControl,
                     )),
                 Container(
                     margin: const EdgeInsets.all(10.0),
@@ -119,10 +117,10 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                       style: decoration.collectionTextDecoration,
                       decoration: decoration
                           .collectionContainer("Description of Collection"),
-                      controller: CollectionDescriptionControl,
+                      controller: collectionDescriptionControl,
                     )),
                 (imagePath != null)
-                    ? Container(
+                    ? SizedBox(
                         width: 100, height: 100, child: Image.file(imagePath!))
                     : Text(
                         "nothing selected",
@@ -158,9 +156,12 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                 ]),
                 ClipRRect(
                   child: GestureDetector(
-                    onTap: () => createCollection(),
+                    onTap: () async {
+                      await createCollection();
+                      Navigator.pop(context);
+                    },
                     child: Container(
-                      margin: EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(10),
                       width: MediaQuery.of(context).size.width * 2 / 3,
                       height: 50,
                       alignment: Alignment.bottomRight,
@@ -189,39 +190,15 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
     );
   }
 
-  uploadIpfs(File filePath) async {
-    String credentials = "2NcZX5XIMCSEZl0ATtoOAoLjUc0:6d1b9bc5227592e7890202a88b6710c4";
-    final auth = base64.encode(utf8.encode(credentials));
-    var fName = filePath.path.substring(filePath.path.lastIndexOf("/") + 1);
-    Dio ipfsClient = Dio(
-      BaseOptions(
-        baseUrl: "https://ipfs.infura.io:5001/api/v0",
-        headers: {
-          "Abspath": filePath.path,
-          "Content-Disposition": 'form-data; filename="$fName"',
-          "Authorization": "Basic $auth",
-        }
-      )
-    );
-    FormData formData = FormData.fromMap({
-      "file": await MultipartFile.fromFile(filePath.path, filename: filePath.path.substring(filePath.path.lastIndexOf("/") + 1)),
-    });
-    return await ipfsClient.post("/add", data: formData)
-        .onError((error, stackTrace) {
-      print(error);
-      throw Exception(error);});
-  }
-
   createCollection() async {
-
     var ipfsResult = await uploadIpfs(imagePath!);
-    ipfsResult = JsonDecoder().convert(ipfsResult.toString());
+    ipfsResult = const JsonDecoder().convert(ipfsResult.toString());
     var uri = await context.read<EthereumProvider>().getMetamaskUri();
     callContract(context, "createCollection", [
-        CollectionNameControl.text,
-        CollectionSymbolControl.text,
-        "https://cloudflare-ipfs.com/ipfs/${ipfsResult["Hash"]}",
-        CollectionDescriptionControl.text
+      collectionNameControl.text,
+      collectionSymbolControl.text,
+      "https://cloudflare-ipfs.com/ipfs/${ipfsResult["Hash"]}",
+      collectionDescriptionControl.text
     ]);
     await launchUrlString(uri!, mode: LaunchMode.externalApplication);
   }

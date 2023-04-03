@@ -1,5 +1,5 @@
 const abi = {
-  "address": "0xe807c4668ea812cabcb53ed568ed80b81245ed71",
+  "address": "0x075c54baa53b4477E29B426b65dd14CF5c4D3E99",
   "ABI": [
     {
       "inputs": [
@@ -510,7 +510,7 @@ const abi = {
       "inputs": [
         {
           "internalType": "address",
-          "name": "_owner",
+          "name": "owner_",
           "type": "address"
         },
         {
@@ -586,9 +586,46 @@ const abi = {
       "name": "getCollections",
       "outputs": [
         {
-          "internalType": "contract Collection[]",
+          "components": [
+            {
+              "internalType": "string",
+              "name": "collectionName",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "collectionAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "collectionImage",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "collectionDescription",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "collectionLikesCount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "collectionOwner",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "collectionNftLikes",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct CollectionHolder.CollectionJSON[]",
           "name": "",
-          "type": "address[]"
+          "type": "tuple[]"
         }
       ],
       "stateMutability": "view",

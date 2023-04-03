@@ -282,7 +282,7 @@ class _LoginPageState extends State<Login> {
                                                 username: user[0],
                                                 profilePicture: user[2],
                                                 email: user[1],
-                                                NFTLikes: int.parse(await query("getUserLikedNFTs", [address])),
+                                                nftLikes: int.parse(await query("getUserLikedNFTs", [address])),
                                                 collectionLikes: int.parse(await query("getUserLikedCollections", [address]))
                                             );
                                             await context.read<UserProvider>().setUser(loggedInUser);

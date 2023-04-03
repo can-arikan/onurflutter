@@ -192,7 +192,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                               Padding(
                                 padding: const EdgeInsets.only(
                                     right: 20.0),
-                                child: Text(user.NFTLikes.toString(),
+                                child: Text(user.nftLikes.toString(),
                                   style: decoration.balanceSheetText,
                                 ),
                               ),

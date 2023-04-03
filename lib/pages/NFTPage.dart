@@ -236,9 +236,6 @@ class _NFTPageState extends State<NFTPage> {
                                                 backgroundImage: NetworkImage(snapshot.data!.profilePicture),
                                               ),
                                               trailing: Text("Creator"),
-
-
-
                                             );
                                           }
                                           else{
@@ -251,9 +248,6 @@ class _NFTPageState extends State<NFTPage> {
                                 ],
                               ),
                             //Buy / bid Button
-
-
-
                           ],
                         ),
                       ),

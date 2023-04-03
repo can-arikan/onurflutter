@@ -40,11 +40,11 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
   void likeNFT(){
-    _user!.NFTLikes += 1;
+    _user!.nftLikes += 1;
     notifyListeners();
   }
   void dislikeNFT(){
-    _user!.NFTLikes -= 1;
+    _user!.nftLikes -= 1;
     notifyListeners();
   }
 }

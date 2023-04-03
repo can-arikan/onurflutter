@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:web3dart/contracts.dart';
-import 'package:web3dart/credentials.dart';
 
 import 'Nft.dart';
 import "../backend/requests.dart";
-import '../ABIs/collectionAbi.dart' as CollectionAbi;
-import "package:properly_made_nft_market/providers/ethereumProvider.dart" as ethereumProvider;
+import "package:properly_made_nft_market/providers/ethereumProvider.dart" as ethereum_provider;
 
 Future<dynamic> query(DeployedContract collectionContract, String functionName, List<dynamic> parameters) async {
   collectionContract = collectionContract;
@@ -15,7 +11,7 @@ Future<dynamic> query(DeployedContract collectionContract, String functionName, 
   var contractFunction =  collectionContract.function(functionName);
   List<dynamic> response;
   try {
-    response = await ethereumProvider.ethClient.call(contract: ethereumProvider.suNFTmarketContract, function: contractFunction , params: parameters);
+    response = await ethereum_provider.ethClient.call(contract: ethereum_provider.suNFTmarketContract, function: contractFunction , params: parameters);
   } catch (error, trace) {
     if (kDebugMode) {
       print(error);
@@ -36,13 +32,13 @@ class NFTCollection {
   final String owner;
   int numLikes;
   final String? category;
-  int NFTLikes;
+  int nftLikes;
 
   String? get pk => address;
 
   NFTCollection({ this.address, required this.name, required this.description,
     required this.collectionImage,required this.category, this.numLikes = 0,
-    this.NFTLikes = 0, required this.owner });
+    this.nftLikes = 0, required this.owner });
 
   // Future<NFTCollection> fromContractAddress(String address) async {
   //   DeployedContract collectionContract = DeployedContract(ContractAbi.fromJson(const JsonEncoder().convert(CollectionAbi.abi["ABI"]), "collectionContract"), EthereumAddress.fromHex(address));
@@ -51,16 +47,16 @@ class NFTCollection {
   //   return NFTCollection();
   // }
 
-  factory NFTCollection.fromJson(Map<String, dynamic> json) {
+  factory NFTCollection.fromJson(List<String> json) {
     return NFTCollection(
-      address: json["address"],
-      name: json['name'],
-      collectionImage: json['collectionImage'],
-      description: json['description'],
-      numLikes: json["numLikes"],
-      owner: json["owner"],
-      category: json["category"],
-      NFTLikes: json["NFTLikes"],
+      address: json[1],
+      name: json[0],
+      collectionImage: json[2],
+      description: json[3],
+      numLikes: int.parse(json[4]),
+      owner: json[5],
+      category: "TODO",
+      nftLikes: int.parse(json[6]),
     );
   }
 
@@ -73,19 +69,19 @@ class NFTCollection {
     'numLikes': numLikes,
     'owner': owner,
     'category': category,
-    "NFTLikes": NFTLikes,
+    "NFTLikes": nftLikes,
   };
 
   Future<List<NFT>> get NFTs async {
-    List<NFT> NFTs = <NFT>[];
+    List<NFT> nfts = <NFT>[];
     if (pk != null) {
-        final List JSONList = await getRequest("nfts", {"collection": pk });
-        NFTs = JSONList.map((item) => NFT.fromJson(item)).toList();
+        final List jsonList = await getRequest("nfts", {"collection": pk });
+        nfts = jsonList.map((item) => NFT.fromJson(item)).toList();
     }
-    return NFTs;
+    return nfts;
   }
 
   @override
-  String toString() => "NFTCollection(address: $address, name: $name, description: $description, collectionImage: $collectionImage, numLikes: $numLikes, owner: $owner, category: $category, NFTLikes: $NFTLikes)";
+  String toString() => "NFTCollection(address: $address, name: $name, description: $description, collectionImage: $collectionImage, numLikes: $numLikes, owner: $owner, category: $category, NFTLikes: $nftLikes)";
 
 }

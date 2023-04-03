@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:properly_made_nft_market/helpers/marketHelper.dart' as MarketHelper;
+import 'package:flutter/foundation.dart';
+import 'package:properly_made_nft_market/helpers/marketHelper.dart' as market_helper;
 import 'package:properly_made_nft_market/models/Nft.dart';
 import 'package:properly_made_nft_market/models/NftCollection.dart';
 import 'package:web3dart/credentials.dart';
@@ -10,7 +11,7 @@ class User {
   final String username;
   final String profilePicture;
   final String email;
-  int NFTLikes;
+  int nftLikes;
   int collectionLikes;
 
   User(
@@ -18,7 +19,7 @@ class User {
       required this.username,
       required this.profilePicture,
       required this.email,
-      required this.NFTLikes,
+      required this.nftLikes,
       required this.collectionLikes});
 
   String get pk => address;
@@ -29,17 +30,17 @@ class User {
         username: json['username'],
         profilePicture: json['profilePicture'] ?? "https://ia801703.us.archive.org/6/items/twitter-default-pfp/e.png",
         email: json['email'],
-        NFTLikes: json['NFTLikes'],
+        nftLikes: json['NFTLikes'],
         collectionLikes: json["collectionLikes"]);
   }
 
   @override
   String toString() =>
-      "User(address: $address, username: $username, profilePicture: $profilePicture, email: $email, NFTLikes: $NFTLikes, collectionLikes: $collectionLikes)";
+      "User(address: $address, username: $username, profilePicture: $profilePicture, email: $email, NFTLikes: $nftLikes, collectionLikes: $collectionLikes)";
 
   Future<List<NFT>> get ownedNFTs async {
-    var response = await MarketHelper.query("fetchMyNFTs", []) as List<dynamic>;
-    var NFTs = response.map((e) => NFT(
+    var response = await market_helper.query("fetchMyNFTs", []) as List<dynamic>;
+    var nfts = response.map((e) => NFT(
         address: e["collection_address"],
         nID: e["nID"],
         name: e["collection"],
@@ -52,31 +53,31 @@ class User {
         marketStatus:
         e["marketStatus"])
     );
-    return NFTs.toList();
+    return nfts.toList();
   }
   Future<List<NFT>> get likedNFTs async {
-    List JSONList = await getRequest("favorites", {"user": pk});
-    List<NFT> ownedNFTs = JSONList.map((item) => NFT.fromJson(item)).toList();
+    List jsonList = await getRequest("favorites", {"user": pk});
+    List<NFT> ownedNFTs = jsonList.map((item) => NFT.fromJson(item)).toList();
     return ownedNFTs;
   }
 
-  Future<bool> userLikedNFT(Map<String, dynamic> NFTInfo) async {
-    final List JSONList =
-        await getRequest("favorites", {...NFTInfo, "user": pk});
-    return JSONList.isNotEmpty;
+  Future<bool> userLikedNFT(Map<String, dynamic> nftInfo) async {
+    final List jsonList =
+        await getRequest("favorites", {...nftInfo, "user": pk});
+    return jsonList.isNotEmpty;
   }
 
-  Future<bool> likeNFT(Map<String, dynamic> NFTInfo,bool liked) async {
+  Future<bool> likeNFT(Map<String, dynamic> nftInfo,bool liked) async {
     if(liked){
-      return (await deleteRequest("favorites", {...NFTInfo, "user": pk}));
+      return (await deleteRequest("favorites", {...nftInfo, "user": pk}));
     }
-    return (await postRequest("favorites", {...NFTInfo, "user": pk}));
+    return (await postRequest("favorites", {...nftInfo, "user": pk}));
   }
 
   Future<bool> userWatchListedCollection(String address) async {
-    final List JSONList =
+    final List jsonList =
     await getRequest("watchLists", {"nftCollection": address, "user": pk});
-    return JSONList.isNotEmpty;
+    return jsonList.isNotEmpty;
   }
 
   Future<bool> watchListCollection(String address, bool watchListed) async {
@@ -87,26 +88,40 @@ class User {
   }
 
   Future<List<NFTCollection>> get watchlistedCollections async {
-    List JSONList = await getRequest("watchLists", {"user": pk});
-    print(JSONList);
-    List<NFTCollection> watchListedCollections = JSONList.map((item) => NFTCollection.fromJson(item)).toList();
+    List jsonList = await getRequest("watchLists", {"user": pk});
+    if (kDebugMode) {
+      print(jsonList);
+    }
+    List<NFTCollection> watchListedCollections = jsonList.map((item) => NFTCollection.fromJson(item)).toList();
 
     return watchListedCollections;
   }
+
   Future<List<NFTCollection>> get ownedCollections async {
-    var JSONList = await MarketHelper.query("getCollections", [EthereumAddress.fromHex(address)])
+    var jsonList = await market_helper.query("getCollections", [EthereumAddress.fromHex(address)])
     .onError((error, stackTrace) {
-      print(error);
+      if (kDebugMode) {
+        print(error);
+      }
     });
-    JSONList = JSONList.replaceAll("[", "").replaceAll("]","").split(",");
-    List<NFTCollection> ownedCollections =
-    JSONList.map((item) => NFTCollection.fromJson(item)).toList();
-    print(JSONList);
+    jsonList = jsonList.replaceAll("[", "").replaceAll("]", "").split(",");
+    List<String> jsonStrList = jsonList;
+    List<List<String>> jsonListList = List.empty(growable: true);
+    for (int i = 0; i < (jsonStrList.length / 7); i++) {
+      List<String> subList = List.empty(growable: true);
+      for (int j = 0; j < 7; j++) {
+        subList.add(jsonStrList[(i * 7) + j].trim());
+      }
+      jsonListList.add(subList);
+    }
+    List<NFTCollection> ownedCollections = jsonListList.map((item) => NFTCollection.fromJson(item)).toList();
     return ownedCollections;
   }
   Future<bool> watchLists(String address) async {
     List isCollectionFollowed = await getRequest("watchLists", {"user": pk,"nftCollection": address});
-    print(isCollectionFollowed);
+    if (kDebugMode) {
+      print(isCollectionFollowed);
+    }
     return (isCollectionFollowed.isNotEmpty);
   }
 }
