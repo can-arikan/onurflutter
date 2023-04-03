@@ -133,3 +133,5 @@ app.*.symbols
 !.vscode/settings.json
 
 build
+
+.android/Flutter/build
