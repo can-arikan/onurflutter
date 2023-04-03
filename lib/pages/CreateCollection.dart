@@ -56,7 +56,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const MainPage()),
+                                    builder: (context) => MainPage(selectedIndex: 3)),
                               ),
                             },
                             child: const Padding(
@@ -159,6 +159,11 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                     onTap: () async {
                       await createCollection();
                       Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MainPage(selectedIndex: 3)),
+                      );
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10),

@@ -13,23 +13,17 @@ import 'package:properly_made_nft_market/pages/MainPageItems/Profile.dart';
 
 
 class MainPage extends StatefulWidget {
-  const MainPage({ Key? key}) : super(key: key);
+  int selectedIndex = 0;
+  MainPage({Key? key, this.selectedIndex = 0}) : super(key: key);
 
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin {
-
-  int selectedIndex = 0;
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -38,10 +32,9 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
 
         //This is the stupidest syntax i have seen in a long time.
         body:
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-
           child: Stack(
             children: [
               Positioned(
@@ -50,26 +43,24 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
               Positioned(
                   child: SingleChildScrollView(
 
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     child: ((){
-                      if(selectedIndex == 0)
+                      if(widget.selectedIndex == 0)
                       {
-                        return Showcase();
+                        return const Showcase();
                       }
-                      else if(selectedIndex == 1)
+                      else if(widget.selectedIndex == 1)
                       {
-                        return ProfilePage();
+                        return const ProfilePage();
                       }
-                      else if(selectedIndex == 2)
+                      else if(widget.selectedIndex == 2)
                       {
-                        return Search();
+                        return const Search();
                       }
-                      else if(selectedIndex == 3)
+                      else if(widget.selectedIndex == 3)
                       {
-                        return Mint();
+                        return const Mint();
                       }
-
-
                     })(),
                   )
 
@@ -81,7 +72,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
 
         //routing within widget.
         bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
+        currentIndex: widget.selectedIndex,
         selectedItemColor: decoration.bottomNavBarIndexColor,
         type: BottomNavigationBarType.fixed,
         backgroundColor: decoration.bottomNavBarColor,
@@ -90,7 +81,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
         //on index change, set state as that index.
         onTap: (int x)=>{
           setState(()=>{
-            selectedIndex = x,
+            widget.selectedIndex = x,
           })
         },
 

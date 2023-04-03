@@ -289,7 +289,7 @@ class _LoginPageState extends State<Login> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) => const MainPage()),
+                                                  builder: (context) => MainPage()),
                                             );
                                           },
                                           label: const Text('Slide to login'),
