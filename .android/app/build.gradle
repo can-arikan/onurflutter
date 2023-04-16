@@ -3,7 +3,7 @@ def flutterPluginVersion = 'managed'
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 31
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -12,8 +12,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.properly_made_nft_market.host"
-        minSdkVersion 33
-        targetSdkVersion 33
+        minSdkVersion 16
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
     }
@@ -34,16 +34,6 @@ buildDir = new File(rootProject.projectDir, "../build/host")
 dependencies {
     implementation project(':flutter')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-}
-
-configurations.all {
-    resolutionStrategy {
-        eachDependency {
-            if ((requested.group == "org.jetbrains.kotlin") && (requested.name.startsWith("kotlin-stdlib"))) {
-                useVersion("1.8.0")
-            }
-        }
-    }
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }
