@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.properly_made_nft_market.host"
-        minSdkVersion 16
+        minSdkVersion 33
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
