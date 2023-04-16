@@ -65,7 +65,6 @@ unlinked_spec.ds
 **/android/captures/
 **/android/gradlew
 **/android/gradlew.bat
-**/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
 **/android/key.properties
 *.jks
@@ -131,7 +130,3 @@ app.*.symbols
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
 !.vscode/settings.json
-
-build
-
-.android/Flutter/build
