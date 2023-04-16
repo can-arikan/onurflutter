@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.properly_made_nft_market.host"
-        minSdkVersion 16
+        minSdkVersion 33
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
@@ -36,14 +36,4 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-}
-
-configurations.all {
-    resolutionStrategy {
-        eachDependency {
-            if ((requested.group == "org.jetbrains.kotlin") && (requested.name.startsWith("kotlin-stdlib"))) {
-                useVersion("1.8.0")
-            }
-        }
-    }
 }
